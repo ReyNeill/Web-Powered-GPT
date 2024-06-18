@@ -1,0 +1,1 @@
+Just a little project using HTML, CSS and in-line JavaScript to load a local AI model on the browser using web-llm and Web Workers.
