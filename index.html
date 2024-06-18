@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Local-Js</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f0f0f0;
+            display: grid;
+            place-content: center;
+            height : 100dvh;  
+        }
+
+        main {
+            width: 400px;
+            max-width: 100%;
+            height: 70dvh;
+
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            margin-bottom: 16px;
+
+            overflow-y:auto; 
+            scroll-behavior: smooth;
+        }
+
+        ul {
+             display: flex;
+             flex-direction: column;
+             list-style: none;
+             padding: 0;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            
+            margin: 4px 0;
+            padding: 4px 8px;
+
+            span {
+                width: 36px;
+                height: 36px;
+                background: #eee;
+                font-size: 12px;
+                font-weight: 500;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 999999px;
+            }
+
+            p {
+                border-radius: 4px;
+                padding: 4px 8px;
+                margin-top: 8px;
+            }
+
+            &.user {
+                align-self: flex-end;
+                align-items: flex-end;
+                span, p {
+                    background: rgb(179, 187, 242);
+                }
+            }
+
+            &.bot {
+                align-self: flex-start; 
+                align-items: flex-start;
+                span, p {
+                    background: rgb(164, 134, 230);
+                }
+            }
+        }
+
+        form {
+            display: flex;
+
+            input{
+                border-radius: 999999px;
+                flex-grow: 1;
+                border: 0;
+                padding: 8px;
+                margin-right: 8px;
+                border: 1px solid #ccc;    
+            }
+
+            button {
+                background: rgb(85, 28, 166);
+                border: 0;
+                color: white;
+                border-radius: 6px;
+                cursor: pointer;
+                padding: 8px;
+                transition: background 0.3s ease;
+
+                &[disabled] {
+                    background: #ccc;
+                    opacity: .6;
+                    &:hover {
+                        background: #ccc;
+                    }
+                }
+
+                &:hover {
+                    background: rgb(61, 19, 119);
+                }
+            }
+        }
+    </style>
+
+    <script type="module">
+        const $ = el => document.querySelector(el)
+
+        const $form = $('form')
+        const $input = $('input')
+        const $template = $('#message-template')
+        const $messages = $('ul')
+        const $container = $('main')
+        const $button = $('button')
+
+        $form.addEventListener('submit', (event) => {
+            event.preventDefault()
+            const messageText = $input.value.trim() 
+
+            if (messageText != '') {
+                
+                $input.value = ''
+            }
+            
+            addMessage(messageText, 'user')
+            $button.setAttribute('disabled', true)
+
+            setTimeout(() => {
+                addMessage('Hello, how are you?', 'bot')
+                $button.removeAttribute('disabled')
+            }, 2000)
+        })
+
+        function addMessage(text, sender) {
+            const clonedTemplate = $template.content.cloneNode(true)
+            const $newMessage = clonedTemplate.querySelector('.message')
+
+            const $who = $newMessage.querySelector('span')
+            const $text = $newMessage.querySelector('p')
+
+            $text.textContent = text;
+            $who.textContent = sender === 'bot' ? 'GPT' : 'You'
+            $newMessage.classList.add(sender)
+            
+            $messages.appendChild($newMessage)
+            $container.scrollTop = $container.scrollHeight
+
+        }
+
+    </script>
+</head>
+<body>
+    <main>
+        <ul>
+            <li class="message bot">
+                <span>GPT</span>
+                <p>Bot Response </p>
+            </li>
+
+            <li class="message user">
+                <span>You</span>
+                <p>User Response</p>
+            </li>
+
+            <li class="message user">
+                <span>You</span>
+                <p>This is a very very large response from the user to see
+                    that things don't break etcetera
+                </p >
+            </li>
+        </ul>
+    </main>
+    
+    <form>
+        <input placeholder="Write your prompt...">
+        <button>Send</button>
+    </form>
+
+    <template id="message-template">
+        <li class="message">
+            <span></span>
+            <p></p>
+        </li>
+    </template>
+</body>
+</html>
