@@ -102,9 +102,7 @@
                 &[disabled] {
                     background: #ccc;
                     opacity: .6;
-                    &:hover {
-                        background: #ccc;
-                    }
+                    pointer-events: none;
                 }
 
                 &:hover {
@@ -112,9 +110,22 @@
                 }
             }
         }
+
+        small {
+            font-size: 10px;
+            color: #555;
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 400px;
+        }
     </style>
 
     <script type="module">
+        import { CreateMLCEngine } from "https://esm.run/@mlc-ai/web-llm"
+
         const $ = el => document.querySelector(el)
 
         const $form = $('form')
@@ -123,6 +134,20 @@
         const $messages = $('ul')
         const $container = $('main')
         const $button = $('button')
+        const $info = $('small')
+
+        const SELECTED_MODEL = 'gemma-2b-it-q4f32_1-MLC'
+
+        const engine = await CreateMLCEngine(
+            SELECTED_MODEL,
+            {
+                //TODO: change parameters to your own
+                initProgressCallback: (info) => {
+                    console.log('initProgressCallback', info)
+                    $info.textContent = `${info.text}%`
+                }
+            }
+        )
 
         $form.addEventListener('submit', (event) => {
             event.preventDefault()
@@ -186,6 +211,8 @@
         <input placeholder="Write your prompt...">
         <button>Send</button>
     </form>
+
+    <small>&nbsp;</small>
 
     <template id="message-template">
         <li class="message">
