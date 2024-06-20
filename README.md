@@ -1,11 +1,10 @@
 # Local AI Model on Browser with Web-Workers
 
-Just a little project using HTML, CSS and in-line JavaScript to load a local AI model on the browser using web-llm and Web Workers.
+Just a little thing using HTML, CSS and in-line JavaScript to load a local AI model on the browser using web-llm and Web Workers.
 
 ## Prerequisites
 
-
-3. Just install node:
+Just install node:
 
    ```bash
    npm install
