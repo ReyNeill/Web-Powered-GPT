@@ -29,5 +29,5 @@ To run the local server and use the application, follow these steps:
 
 ## Acknowledgments
 
-- Thanks of web-llm, check them out.
+- Thanks to web-llm, check them out.
 - Inspiration for this project came from the growing need for privacy-preserving AI applications.
