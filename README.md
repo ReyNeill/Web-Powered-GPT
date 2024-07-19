@@ -30,3 +30,5 @@ To run the local server and use the application, follow these steps:
 
 - Thanks to web-llm, check them out.
 - Inspiration for this project came from the growing need for privacy-preserving AI applications.
+
+Edit: chrome ended up implementing this concept lol
